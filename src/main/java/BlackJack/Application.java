@@ -46,8 +46,21 @@ public class Application {
 
         System.out.println("딜러와 " + sb +"에게 2장을 나누었습니다." );
         for (int i=0;i< nameList.size();i++) {
-            System.out.println(nameList.get(i) + ": " + cardBox.get(i));
+            String result = "";
+            for (int j=0; j< cardBox.get(i).size();j++) {
+                result+=cardBox.get(i).get(j);
+                if (j<cardBox.get(i).size()-1) {
+                    result+=", ";
+                }
+            }
+            if (i==0) {
+                System.out.println(nameList.get(i) + ": " + cardBox.get(i).get(random.nextInt(2)));
+            } else {
+                System.out.println(nameList.get(i) + ": " + result);
+            }
+
         }
+
 
         for (int j=0; j<nameList.size();j++) {
             System.out.println(nameList.get(j) + "는 한장의 카드를 더 받겠습니까? (예는 y, 아니오는 n)");
