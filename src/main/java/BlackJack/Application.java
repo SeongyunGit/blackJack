@@ -10,6 +10,9 @@ public class Application {
         String input = sc.nextLine();
         List<String> nameList = Arrays.asList(input.split(","));
 
+        ArrayList<ArrayList<String>> cardBox = new ArrayList<>();
+
+
         List<Integer> moneyList = new ArrayList<>();
         for (int i=0;i< nameList.size();i++) {
             System.out.println(nameList.get(i) + "의 베팅 금액은?");
@@ -25,8 +28,6 @@ public class Application {
         }
         System.out.println();
         Random random = new Random();
-
-
 
     }
 }
