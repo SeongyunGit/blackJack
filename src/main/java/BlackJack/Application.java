@@ -27,6 +27,7 @@ public class Application {
         String[] cardName = {"클로버","스페이드","하트","다이아몬드"};
         String[] number = {"A","2","3","4","5","6","7","8","9","J","Q","K"};
         Random random = new Random();
+
         for (int i=0;i<2;i++) {
             for (int j=0; j<nameList.size();j++) {
                 String name = cardName[random.nextInt(4)];
@@ -60,13 +61,12 @@ public class Application {
             }
 
         }
-
-
-        for (int j=0; j<nameList.size();j++) {
+        
+        for (int j=1; j<nameList.size();j++) {
             System.out.println(nameList.get(j) + "는 한장의 카드를 더 받겠습니까? (예는 y, 아니오는 n)");
             String answer = sc.next();
             if (answer.equals("y")) {
-                String name = cardName[random.nextInt(5)];
+                String name = cardName[random.nextInt(4)];
                 String num = number[random.nextInt(12)];
                 cardBox.get(j).add(num+name);
             }
