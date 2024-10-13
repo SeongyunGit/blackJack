@@ -59,18 +59,49 @@ public class Application {
             } else {
                 System.out.println(nameList.get(i) + ": " + result);
             }
-
         }
-        
-        for (int j=1; j<nameList.size();j++) {
-            System.out.println(nameList.get(j) + "는 한장의 카드를 더 받겠습니까? (예는 y, 아니오는 n)");
-            String answer = sc.next();
-            if (answer.equals("y")) {
-                String name = cardName[random.nextInt(4)];
-                String num = number[random.nextInt(12)];
-                cardBox.get(j).add(num+name);
+        while (true) {
+            int noCount = 0;
+            boolean is_true = true;
+
+            for (int j=0; j<nameList.size();j++) {
+                int count = 0;
+                for (int l = 0; l < cardBox.get(j).size(); l++) {
+                    if (cardBox.get(j).get(l).charAt(0) == 'A') {
+                        count += 11;
+                    } else if (cardBox.get(j).get(l).charAt(0) == 'K' || cardBox.get(j).get(l).charAt(0) == 'Q' || cardBox.get(j).get(l).charAt(0) == 'J') {
+                        count += 10;
+                    } else {
+                        count +=cardBox.get(j).get(l).charAt(0)-'0';
+                    }
+                }
+                if (count>=21) {
+                    is_true=false;
+                    System.out.println(count);
+                    break;
+                }
+                if (j == 0 && count <= 16) {
+                    String name = cardName[random.nextInt(4)];
+                    String num = number[random.nextInt(12)];
+                    cardBox.get(j).add(num + name);
+                }
+                if (j != 0 && count < 21) {
+                    System.out.println(nameList.get(j) + "는 한장의 카드를 더 받겠습니까? (예는 y, 아니오는 n)");
+                    String answer = sc.next();
+                    if (answer.equals("y")) {
+                        String name = cardName[random.nextInt(4)];
+                        String num = number[random.nextInt(12)];
+                        cardBox.get(j).add(num + name);
+                    } else {
+                        noCount+=1;
+                    }
+                }
+            }
+            if (!is_true || noCount==nameList.size()-1) {
+                break;
             }
         }
+        System.out.println(cardBox);
 
 
     }
