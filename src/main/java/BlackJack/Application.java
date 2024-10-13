@@ -159,6 +159,7 @@ public class Application {
                 realResult[i]=-moneyList.get(i);
             }
         }
+
         int dealer=0;
         for (int i=1;i< moneyList.size();i++) {
             dealer+=realResult[i];
