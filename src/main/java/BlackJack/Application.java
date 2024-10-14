@@ -4,63 +4,29 @@ package BlackJack;
 import java.util.*;
 
 public class Application {
+
+    private static final String[] cardName = {"클로버","스페이드","하트","다이아몬드"};
+    private static final String[] number = {"A","2","3","4","5","6","7","8","9","J","Q","K"};
+    private static final Random random = new Random();
+
+    private static Scanner sc = new Scanner(System.in);
+    private static ArrayList<ArrayList<String>> cardBox = new ArrayList<>();
+    private static List<Integer> moneyList = new ArrayList<>();
+    private static StringBuilder sb =new StringBuilder();
+    private static List<String> nameList = new ArrayList<>();
+
     public static void main(String[] args) {
-        System.out.println("게임에 참여할 사람의 이름을 입력하세요.(쉼표 기준으로 분리)");
-        Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
-        List<String> nameList = new ArrayList<>(Arrays.asList(input.split(",")));
-        nameList.add(0,"딜러");
-        System.out.println(nameList);
 
-        ArrayList<ArrayList<String>> cardBox = new ArrayList<>();
-        for (int i=0;i< nameList.size();i++) {
-            ArrayList<String> list = new ArrayList<>();
-            cardBox.add(list);
-        }
-        List<Integer> moneyList = new ArrayList<>();
-        moneyList.add(0);
-        for (int i=1;i<nameList.size();i++) {
-            System.out.println(nameList.get(i) + "의 베팅 금액은?");
-            int money = sc.nextInt();
-            moneyList.add(money);
-        }
+        nameList = gameNameInput();
 
-        String[] cardName = {"클로버","스페이드","하트","다이아몬드"};
-        String[] number = {"A","2","3","4","5","6","7","8","9","J","Q","K"};
-        Random random = new Random();
+        moneyList = bettingMoney(nameList);
 
-        for (int i=0;i<2;i++) {
-            for (int j=0; j<nameList.size();j++) {
-                String name = cardName[random.nextInt(4)];
-                String num = number[random.nextInt(12)];
-                cardBox.get(j).add(num+name);
-            }
-        }
+        cardBox = randomPick(nameList);
 
+        showCardFirst(nameList);
         System.out.println(cardBox);
-        StringBuilder sb =new StringBuilder();
-        for (int i=1;i< nameList.size();i++) {
-            sb.append(nameList.get(i));
-            if (i!= nameList.size()-1) {
-                sb.append(", ");
-            }
-        }
 
-        System.out.println("딜러와 " + sb +"에게 2장을 나누었습니다." );
-        for (int i=0;i< nameList.size();i++) {
-            String result = "";
-            for (int j=0; j< cardBox.get(i).size();j++) {
-                result+=cardBox.get(i).get(j);
-                if (j<cardBox.get(i).size()-1) {
-                    result+=", ";
-                }
-            }
-            if (i==0) {
-                System.out.println(nameList.get(i) + ": " + cardBox.get(i).get(random.nextInt(2)));
-            } else {
-                System.out.println(nameList.get(i) + ": " + result);
-            }
-        }
+
         while (true) {
             int noCount = 0;
             boolean is_true = true;
@@ -88,15 +54,9 @@ public class Application {
                     cardBox.get(j).add(num + name);
                 }
                 if (j != 0 && count < 21) {
-                    System.out.println(nameList.get(j) + "는 한장의 카드를 더 받겠습니까? (예는 y, 아니오는 n)");
-                    String answer = sc.next();
-                    if (answer.equals("y")) {
-                        String name = cardName[random.nextInt(4)];
-                        String num = number[random.nextInt(12)];
-                        cardBox.get(j).add(num + name);
-                    } else {
-                        noCount+=1;
-                    }
+                    noCount = chooseGettingCardInput(noCount,j,nameList);
+
+
                 }
             }
             if (!is_true || noCount==nameList.size()-1) {
@@ -171,4 +131,77 @@ public class Application {
             System.out.println(nameList.get(i) + ": " + realResult[i]);
         }
     }
+    static List<String> gameNameInput() {
+        System.out.println("게임에 참여할 사람의 이름을 입력하세요.(쉼표 기준으로 분리)");
+        String input = sc.nextLine();
+        List<String> nameList = new ArrayList<>(Arrays.asList(input.split(",")));
+        nameList.add(0,"딜러");
+        System.out.println(nameList);
+        return nameList;
+    }
+
+    static List<Integer> bettingMoney(List<String> nameList) {
+        for (int i=0;i< nameList.size();i++) {
+            ArrayList<String> list = new ArrayList<>();
+            cardBox.add(list);
+        }
+        List<Integer> moneyList = new ArrayList<>();
+        moneyList.add(0);
+        for (int i=1;i<nameList.size();i++) {
+            System.out.println(nameList.get(i) + "의 베팅 금액은?");
+            int money = sc.nextInt();
+            moneyList.add(money);
+        }
+        return moneyList;
+    }
+
+    static int chooseGettingCardInput(int noCount, int j, List<String> nameList) {
+        System.out.println(nameList.get(j) + "는 한장의 카드를 더 받겠습니까? (예는 y, 아니오는 n)");
+        String answer = sc.next();
+        if (answer.equals("y")) {
+            String name = cardName[random.nextInt(4)];
+            String num = number[random.nextInt(12)];
+            cardBox.get(j).add(num + name);
+        } else {
+            noCount+=1;
+        }
+        return noCount;
+    }
+
+    static ArrayList<ArrayList<String>> randomPick(List<String> nameList) {
+        for (int i=0;i<2;i++) {
+            for (int j=0; j<nameList.size();j++) {
+                String name = cardName[random.nextInt(4)];
+                String num = number[random.nextInt(12)];
+                cardBox.get(j).add(num+name);
+            }
+        }
+        return cardBox;
+    }
+
+    static void showCardFirst(List<String> nameList) {
+        System.out.println(cardBox);
+        for (int i=1;i< nameList.size();i++) {
+            sb.append(nameList.get(i));
+            if (i!= nameList.size()-1) {
+                sb.append(", ");
+            }
+        }
+        System.out.println("딜러와 " + sb +"에게 2장을 나누었습니다." );
+        for (int i=0;i< nameList.size();i++) {
+            String result = "";
+            for (int j=0; j< cardBox.get(i).size();j++) {
+                result+=cardBox.get(i).get(j);
+                if (j<cardBox.get(i).size()-1) {
+                    result+=", ";
+                }
+            }
+            if (i==0) {
+                System.out.println(nameList.get(i) + ": " + cardBox.get(i).get(random.nextInt(2)));
+            } else {
+                System.out.println(nameList.get(i) + ": " + result);
+            }
+        }
+    }
+
 }
