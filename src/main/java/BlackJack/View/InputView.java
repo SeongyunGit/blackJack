@@ -8,7 +8,6 @@ public class InputView {
     private static final String[] number = {"A","2","3","4","5","6","7","8","9","J","Q","K"};
     private static final Random random = new Random();
 
-    private static ArrayList<ArrayList<String>> cardBox = new ArrayList<>();
     private static Scanner sc = new Scanner(System.in);
 
     public static List<String> gameNameInput() {
@@ -16,11 +15,10 @@ public class InputView {
         String input = sc.nextLine();
         List<String> nameList = new ArrayList<>(Arrays.asList(input.split(",")));
         nameList.add(0,"딜러");
-        System.out.println(nameList);
         return nameList;
     }
 
-    public static int chooseGettingCardInput(int noCount, int j, List<String> nameList) {
+    public static int chooseGettingCardInput(int noCount, int j, List<String> nameList,ArrayList<ArrayList<String>> cardBox) {
         System.out.println(nameList.get(j) + "는 한장의 카드를 더 받겠습니까? (예는 y, 아니오는 n)");
         String answer = sc.next();
         if (answer.equals("y")) {
@@ -34,10 +32,6 @@ public class InputView {
     }
 
     public static List<Integer> bettingMoneyInput(List<String> nameList) {
-        for (int i=0;i< nameList.size();i++) {
-            ArrayList<String> list = new ArrayList<>();
-            cardBox.add(list);
-        }
         List<Integer> moneyList = new ArrayList<>();
         moneyList.add(0);
         for (int i=1;i<nameList.size();i++) {

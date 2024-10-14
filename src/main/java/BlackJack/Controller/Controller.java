@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class Controller {
-    private static List<String> nameList = new ArrayList<>();
+    private static List<String> nameList;
     private static List<Integer> moneyList = new ArrayList<>();
     private static ArrayList<ArrayList<String>> cardBox = new ArrayList<>();
     private static ArrayList<Integer> result = new ArrayList<>();
@@ -29,8 +29,7 @@ public class Controller {
 
         moneyList = input.bettingMoneyInput(nameList);
 
-        cardBox = model.randomPick(nameList);
-
+        cardBox = model.randomPick(nameList,cardBox);
 
         output.showCardFirst(nameList,cardBox);
 

@@ -74,7 +74,7 @@ public class OutputView {
                 }
 
                 if (j != 0 && count < 21) {
-                    noCount = chooseGettingCardInput(noCount,j,nameList);
+                    noCount = chooseGettingCardInput(noCount,j,nameList,cardBox);
 
 
                 }

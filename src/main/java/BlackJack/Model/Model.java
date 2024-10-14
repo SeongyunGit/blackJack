@@ -10,11 +10,15 @@ public class Model {
     private static final String[] number = {"A","2","3","4","5","6","7","8","9","J","Q","K"};
     private static final Random random = new Random();
 
-    private static ArrayList<ArrayList<String>> cardBox = new ArrayList<>();
 
-    public static ArrayList<ArrayList<String>> randomPick(List<String> nameList) {
+    public static ArrayList<ArrayList<String>> randomPick(List<String> nameList,ArrayList<ArrayList<String>> cardBox) {
+        for (int i=0;i< nameList.size();i++) {
+            ArrayList<String> list = new ArrayList<>();
+            cardBox.add(list);
+        }
         for (int i=0;i<2;i++) {
             for (int j=0; j<nameList.size();j++) {
+                System.out.println(cardBox);
                 String name = cardName[random.nextInt(4)];
                 String num = number[random.nextInt(12)];
                 cardBox.get(j).add(num+name);
