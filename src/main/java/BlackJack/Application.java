@@ -14,6 +14,8 @@ public class Application {
     private static List<Integer> moneyList = new ArrayList<>();
     private static StringBuilder sb =new StringBuilder();
     private static List<String> nameList = new ArrayList<>();
+    private static ArrayList<Integer> result = new ArrayList<>();
+    private static int[] ranking = new int[result.size()];
 
     public static void main(String[] args) {
 
@@ -26,111 +28,16 @@ public class Application {
         showCardFirst(nameList);
         System.out.println(cardBox);
 
+        calculateTempoaryScore();
 
-        while (true) {
-            int noCount = 0;
-            boolean is_true = true;
+        resultOutput();
 
-            for (int j=0; j<nameList.size();j++) {
-                int count = 0;
-                for (int l = 0; l < cardBox.get(j).size(); l++) {
-                    if (cardBox.get(j).get(l).charAt(0) == 'A') {
-                        count += 11;
-                    } else if (cardBox.get(j).get(l).charAt(0) == 'K' || cardBox.get(j).get(l).charAt(0) == 'Q' || cardBox.get(j).get(l).charAt(0) == 'J') {
-                        count += 10;
-                    } else {
-                        count +=cardBox.get(j).get(l).charAt(0)-'0';
-                    }
-                }
-                if (count>=21) {
-                    is_true=false;
-                    System.out.println(count);
-                    break;
-                }
-                if (j == 0 && count <= 16) {
-                    System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
-                    String name = cardName[random.nextInt(4)];
-                    String num = number[random.nextInt(12)];
-                    cardBox.get(j).add(num + name);
-                }
-                if (j != 0 && count < 21) {
-                    noCount = chooseGettingCardInput(noCount,j,nameList);
-
-
-                }
-            }
-            if (!is_true || noCount==nameList.size()-1) {
-                break;
-            }
-        }
         System.out.println(cardBox);
-        ArrayList<Integer> result = new ArrayList<>();
-        for (int j=0; j<nameList.size();j++) {
-            int count = 0;
-            for (int l = 0; l < cardBox.get(j).size(); l++) {
-                if (cardBox.get(j).get(l).charAt(0) == 'A') {
-                    count += 11;
-                } else if (cardBox.get(j).get(l).charAt(0) == 'K' || cardBox.get(j).get(l).charAt(0) == 'Q' || cardBox.get(j).get(l).charAt(0) == 'J') {
-                    count += 10;
-                } else {
-                    count += cardBox.get(j).get(l).charAt(0) - '0';
-                }
-            }
-            result.add(count);
-        }
-        System.out.println(result);
-        for (int i=0;i< nameList.size();i++) {
-            String resultCard = "";
-            for (int j=0; j< cardBox.get(i).size();j++) {
-                resultCard+=cardBox.get(i).get(j);
-                if (j<cardBox.get(i).size()-1) {
-                    resultCard+=", ";
-                }
-            }
-            System.out.println(nameList.get(i) + ": " + resultCard + " - 결과: " + result.get(i));
-        }
-        System.out.println("## 최종 수익");
 
-        int[] ranking = new int[result.size()];
-        for (int i =0;i< result.size();i++) {
-            int rank = 1;
-            for (int j=0;j< result.size();j++) {
-                if (result.get(i)>21) {
-                    rank++;
-                }
-                else if (result.get(i)<result.get(j) && result.get(j)<=21) {
-                    rank++;
-                }
-            }
-            ranking[i]=rank;
-        }
-        for (int i=0;i< result.size();i++) {
-            if (result.get(i)>21) {
-                ranking[i]=2;
-            }
-        }
-
-
-        System.out.println(Arrays.toString(ranking));
-        int[] realResult=new int[result.size()];
-        for (int i=0;i< ranking.length;i++) {
-            if (ranking[i]==1) {
-                realResult[i]=moneyList.get(i);
-            }
-            else {
-                realResult[i]=-moneyList.get(i);
-            }
-        }
-
-        int dealer=0;
-        for (int i=1;i< moneyList.size();i++) {
-            dealer+=realResult[i];
-        }
-        realResult[0]=-dealer;
-        for (int i=0;i< moneyList.size();i++) {
-            System.out.println(nameList.get(i) + ": " + realResult[i]);
-        }
+        lastBenefit();
     }
+
+
     static List<String> gameNameInput() {
         System.out.println("게임에 참여할 사람의 이름을 입력하세요.(쉼표 기준으로 분리)");
         String input = sc.nextLine();
@@ -203,5 +110,112 @@ public class Application {
             }
         }
     }
+    static void calculateTempoaryScore() {
+        while (true) {
+            int noCount = 0;
+            boolean is_true = true;
 
+            for (int j=0; j<nameList.size();j++) {
+                int count = 0;
+                for (int l = 0; l < cardBox.get(j).size(); l++) {
+                    if (cardBox.get(j).get(l).charAt(0) == 'A') {
+                        count += 11;
+                    } else if (cardBox.get(j).get(l).charAt(0) == 'K' || cardBox.get(j).get(l).charAt(0) == 'Q' || cardBox.get(j).get(l).charAt(0) == 'J') {
+                        count += 10;
+                    } else {
+                        count +=cardBox.get(j).get(l).charAt(0)-'0';
+                    }
+                }
+                if (count>=21) {
+                    is_true=false;
+                    System.out.println(count);
+                    break;
+                }
+                if (j == 0 && count <= 16) {
+                    System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
+                    String name = cardName[random.nextInt(4)];
+                    String num = number[random.nextInt(12)];
+                    cardBox.get(j).add(num + name);
+                }
+                if (j != 0 && count < 21) {
+                    noCount = chooseGettingCardInput(noCount,j,nameList);
+
+
+                }
+            }
+            if (!is_true || noCount==nameList.size()-1) {
+                break;
+            }
+        }
+    }
+
+    static void resultOutput() {
+        System.out.println(cardBox);
+        for (int j=0; j<nameList.size();j++) {
+            int count = 0;
+            for (int l = 0; l < cardBox.get(j).size(); l++) {
+                if (cardBox.get(j).get(l).charAt(0) == 'A') {
+                    count += 11;
+                } else if (cardBox.get(j).get(l).charAt(0) == 'K' || cardBox.get(j).get(l).charAt(0) == 'Q' || cardBox.get(j).get(l).charAt(0) == 'J') {
+                    count += 10;
+                } else {
+                    count += cardBox.get(j).get(l).charAt(0) - '0';
+                }
+            }
+            result.add(count);
+        }
+        System.out.println(result);
+        for (int i=0;i< nameList.size();i++) {
+            String resultCard = "";
+            for (int j=0; j< cardBox.get(i).size();j++) {
+                resultCard+=cardBox.get(i).get(j);
+                if (j<cardBox.get(i).size()-1) {
+                    resultCard+=", ";
+                }
+            }
+            System.out.println(nameList.get(i) + ": " + resultCard + " - 결과: " + result.get(i));
+        }
+    }
+
+    static void lastBenefit() {
+        System.out.println("## 최종 수익");
+        for (int i =0;i< result.size();i++) {
+            int rank = 1;
+            for (int j=0;j< result.size();j++) {
+                if (result.get(i)>21) {
+                    rank++;
+                }
+                else if (result.get(i)<result.get(j) && result.get(j)<=21) {
+                    rank++;
+                }
+            }
+            ranking[i]=rank;
+        }
+        for (int i=0;i< result.size();i++) {
+            if (result.get(i)>21) {
+                ranking[i]=2;
+            }
+        }
+
+
+        System.out.println(Arrays.toString(ranking));
+        int[] realResult=new int[result.size()];
+        for (int i=0;i< ranking.length;i++) {
+            if (ranking[i]==1) {
+                realResult[i]=moneyList.get(i);
+            }
+            else {
+                realResult[i]=-moneyList.get(i);
+            }
+        }
+
+        int dealer=0;
+        for (int i=1;i< moneyList.size();i++) {
+            dealer+=realResult[i];
+        }
+        realResult[0]=-dealer;
+        for (int i=0;i< moneyList.size();i++) {
+            System.out.println(nameList.get(i) + ": " + realResult[i]);
+        }
+    }
 }
