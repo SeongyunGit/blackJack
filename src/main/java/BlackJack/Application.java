@@ -15,7 +15,7 @@ public class Application {
     private static StringBuilder sb =new StringBuilder();
     private static List<String> nameList = new ArrayList<>();
     private static ArrayList<Integer> result = new ArrayList<>();
-    private static int[] ranking = new int[result.size()];
+    private static int[] ranking;
 
     public static void main(String[] args) {
 
@@ -179,6 +179,7 @@ public class Application {
 
     static void lastBenefit() {
         System.out.println("## 최종 수익");
+        ranking = new int[result.size()];
         for (int i =0;i< result.size();i++) {
             int rank = 1;
             for (int j=0;j< result.size();j++) {
