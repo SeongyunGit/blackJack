@@ -149,6 +149,8 @@ public class Application {
                 ranking[i]=2;
             }
         }
+
+
         System.out.println(Arrays.toString(ranking));
         int[] realResult=new int[result.size()];
         for (int i=0;i< ranking.length;i++) {
