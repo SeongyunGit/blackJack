@@ -13,9 +13,7 @@ import static BlackJack.View.InputView.chooseGettingCardInput;
 public class OutputView {
 
     private static final Random random = new Random();
-
     private static StringBuilder sb =new StringBuilder();
-
     private static Model model;
 
     public OutputView(Model model) {
