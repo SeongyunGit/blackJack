@@ -2,10 +2,10 @@ package BlackJack.View;
 
 import BlackJack.Model.Model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static BlackJack.View.InputView.chooseGettingCardInput;
@@ -23,92 +23,84 @@ public class OutputView {
 
     public void showCardFirst(List<String> nameList, ArrayList<ArrayList<String>> cardBox) {
         System.out.println(cardBox);
-        for (int i=1;i< nameList.size();i++) {
-            sb.append(nameList.get(i));
-            if (i!= nameList.size()-1) {
-                sb.append(", ");
-            }
-        }
+        IntStream.range(1,nameList.size())
+                .forEach(i-> {
+                    sb.append(nameList.get(i));
+                    if (i!= nameList.size()-1) {
+                        sb.append(", ");
+                    }
+                });
+
+
         System.out.println("딜러와 " + sb +"에게 2장을 나누었습니다." );
-        for (int i=0;i< nameList.size();i++) {
-            String result = "";
-            for (int j=0; j< cardBox.get(i).size();j++) {
-                result+=cardBox.get(i).get(j);
-                if (j<cardBox.get(i).size()-1) {
-                    result+=", ";
-                }
-            }
+        IntStream.range(0, nameList.size()).forEach(i-> {
+            String result = cardBox.get(i).stream()
+                    .collect(Collectors.joining(", "));
             if (i==0) {
                 System.out.println(nameList.get(i) + ": " + cardBox.get(i).get(random.nextInt(2)));
             } else {
                 System.out.println(nameList.get(i) + ": " + result);
             }
-        }
+        });
     }
 
     public static void calculateTempoaryScore(List<String> nameList,ArrayList<ArrayList<String>> cardBox) {
         while (true) {
-            int noCount = 0;
-            boolean is_true = true;
+            AtomicInteger noCount = new AtomicInteger(0);
+            AtomicBoolean is_true = new AtomicBoolean(true);
 
-            for (int j=0; j<nameList.size();j++) {
-                int count = 0;
-                for (int l = 0; l < cardBox.get(j).size(); l++) {
-                    if (cardBox.get(j).get(l).charAt(0) == 'A') {
-                        count += 11;
-                    } else if (cardBox.get(j).get(l).charAt(0) == 'K' || cardBox.get(j).get(l).charAt(0) == 'Q' || cardBox.get(j).get(l).charAt(0) == 'J') {
-                        count += 10;
-                    } else {
-                        count +=cardBox.get(j).get(l).charAt(0)-'0';
-                    }
-                }
-                if (count>=21) {
-                    is_true=false;
+            IntStream.range(0,nameList.size()).forEach(i-> {
+                int count = cardBox.get(i).stream()
+                        .mapToInt(card -> {
+                            char firstChar = card.charAt(0);
+                            if (firstChar == 'A') return 11;
+                            else if (firstChar == 'K' || firstChar == 'Q' || firstChar == 'J') return 10;
+                            else return firstChar - '0';
+                        })
+                        .sum();
+                if (count >= 21) {
+                    is_true.set(false);
                     System.out.println(count);
-                    break;
+                    return;
                 }
-                if (j == 0 && count <= 16) {
+
+                if (i == 0 && count < 16) {
                     System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
-                    model.dealerPickCard(j,cardBox);
+                    model.dealerPickCard(i, cardBox);
+                }
+                if (i != 0 && count < 21) {
+                    noCount.set(chooseGettingCardInput(noCount.get(), i, nameList, cardBox));
                 }
 
-                if (j != 0 && count < 21) {
-                    noCount = chooseGettingCardInput(noCount,j,nameList,cardBox);
+            });
 
-
-                }
-            }
-            if (!is_true || noCount==nameList.size()-1) {
+            if (!is_true.get() || noCount.get()==nameList.size()-1) {
                 break;
             }
         }
     }
     public static void resultOutput(List<String> nameList,ArrayList<ArrayList<String>> cardBox,ArrayList<Integer> result) {
         System.out.println(cardBox);
-        for (int j=0; j<nameList.size();j++) {
-            int count = 0;
-            for (int l = 0; l < cardBox.get(j).size(); l++) {
-                if (cardBox.get(j).get(l).charAt(0) == 'A') {
-                    count += 11;
-                } else if (cardBox.get(j).get(l).charAt(0) == 'K' || cardBox.get(j).get(l).charAt(0) == 'Q' || cardBox.get(j).get(l).charAt(0) == 'J') {
-                    count += 10;
-                } else {
-                    count += cardBox.get(j).get(l).charAt(0) - '0';
-                }
-            }
-            result.add(count);
-        }
+        List<Integer> scores = IntStream.range(0,nameList.size())
+                .map(i-> cardBox.get(i).stream()
+                        .mapToInt(card -> {
+                            char firstChar =card.charAt(0);
+                            if (firstChar=='A') return 11;
+                            else if (firstChar=='K' || firstChar=='Q' || firstChar=='J') return 10;
+                            else return firstChar-'0';
+                        })
+                        .sum())
+                .boxed()
+                .collect(Collectors.toList());
+        result.addAll(scores);
+
         System.out.println(result);
-        for (int i=0;i< nameList.size();i++) {
-            String resultCard = "";
-            for (int j=0; j< cardBox.get(i).size();j++) {
-                resultCard+=cardBox.get(i).get(j);
-                if (j<cardBox.get(i).size()-1) {
-                    resultCard+=", ";
-                }
-            }
+
+        IntStream.range(0,nameList.size()).forEach(i-> {
+            String resultCard = cardBox.get(i).stream()
+                    .collect(Collectors.joining(", "));
             System.out.println(nameList.get(i) + ": " + resultCard + " - 결과: " + result.get(i));
-        }
+        });
     }
     public static void lastBenefit(ArrayList<Integer> result,List<Integer> moneyList,List<String> nameList) {
         System.out.println("## 최종 수익");
