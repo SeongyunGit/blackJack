@@ -30,9 +30,12 @@ public class Controller {
         cardBox = model.randomPick(nameList,cardBox);
         output.showCardFirst(nameList,cardBox);
         System.out.println(cardBox);
+
         output.calculateTempoaryScore(nameList,cardBox);
         output.resultOutput(nameList, cardBox,result);
+
         System.out.println(cardBox);
+
         output.lastBenefit(result,moneyList,nameList);
     }
 }
