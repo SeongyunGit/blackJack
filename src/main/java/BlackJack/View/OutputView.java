@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import static BlackJack.View.InputView.chooseGettingCardInput;
 
@@ -112,41 +113,36 @@ public class OutputView {
     public static void lastBenefit(ArrayList<Integer> result,List<Integer> moneyList,List<String> nameList) {
         System.out.println("## 최종 수익");
         int [] ranking = new int[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            int rank = 1;
-            for (int j = 0; j < result.size(); j++) {
-                if (result.get(i) > 21) {
-                    rank++;
-                } else if (result.get(i) < result.get(j) && result.get(j) <= 21) {
-                    rank++;
-                }
-            }
-            ranking[i] = rank;
-        }
-        for (int i = 0; i < result.size(); i++) {
-            if (result.get(i) > 21) {
-                ranking[i] = 2;
-            }
-        }
 
+        IntStream.range(0,result.size()).forEach(i-> {
+            int rank = (int) IntStream.range(0,result.size())
+                    .filter( j->result.get(i) < result.get(j) && result.get(j) <= 21 || result.get(i)>21)
+                    .count()+1;
+            ranking[i]=rank;
+        });
+
+        IntStream.range(0,result.size())
+                .filter(i->result.get(i) > 21)
+                .forEach(i->ranking[i]=2);
 
         System.out.println(Arrays.toString(ranking));
         int[] realResult = new int[result.size()];
-        for (int i = 0; i < ranking.length; i++) {
+        IntStream.range(0,ranking.length).forEach(i-> {
             if (ranking[i] == 1) {
                 realResult[i] = moneyList.get(i);
             } else {
                 realResult[i] = -moneyList.get(i);
             }
-        }
+        });
 
         int dealer = 0;
-        for (int i = 1; i < moneyList.size(); i++) {
-            dealer += realResult[i];
-        }
+        dealer += IntStream.range(1,moneyList.size())
+                .map(i->realResult[i])
+                .sum();
+
         realResult[0] = -dealer;
-        for (int i = 0; i < moneyList.size(); i++) {
-            System.out.println(nameList.get(i) + ": " + realResult[i]);
-        }
+        IntStream.range(0,moneyList.size())
+                .forEach(i-> System.out.println(nameList.get(i) + ": " + realResult[i]));
+
     }
 }

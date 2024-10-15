@@ -1,6 +1,7 @@
 package BlackJack.View;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class InputView {
 
@@ -34,11 +35,11 @@ public class InputView {
     public static List<Integer> bettingMoneyInput(List<String> nameList) {
         List<Integer> moneyList = new ArrayList<>();
         moneyList.add(0);
-        for (int i=1;i<nameList.size();i++) {
+        IntStream.range(1,nameList.size()).forEach(i-> {
             System.out.println(nameList.get(i) + "의 베팅 금액은?");
             int money = sc.nextInt();
             moneyList.add(money);
-        }
+        });
         return moneyList;
     }
 }

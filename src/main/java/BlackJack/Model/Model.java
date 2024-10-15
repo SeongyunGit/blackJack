@@ -3,6 +3,7 @@ package BlackJack.Model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class Model {
 
@@ -12,18 +13,14 @@ public class Model {
 
 
     public static ArrayList<ArrayList<String>> randomPick(List<String> nameList,ArrayList<ArrayList<String>> cardBox) {
-        for (int i=0;i< nameList.size();i++) {
-            ArrayList<String> list = new ArrayList<>();
-            cardBox.add(list);
-        }
-        for (int i=0;i<2;i++) {
-            for (int j=0; j<nameList.size();j++) {
-                System.out.println(cardBox);
-                String name = cardName[random.nextInt(4)];
-                String num = number[random.nextInt(12)];
-                cardBox.get(j).add(num+name);
-            }
-        }
+        nameList.forEach(name-> cardBox.add(new ArrayList<>()));
+        IntStream.range(0,2).forEach(i->
+                IntStream.range(0, nameList.size()).forEach(j-> {
+                    String name = cardName[random.nextInt(4)];
+                    String num = number[random.nextInt(12)];
+                    cardBox.get(j).add(num+name);
+                })
+        );
         return cardBox;
     }
     public static void dealerPickCard(int j, ArrayList<ArrayList<String>> cardBox) {
