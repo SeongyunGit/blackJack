@@ -43,7 +43,7 @@ public class OutputView {
             String result = cardBox.get(i);
             if (i == 0) {
                 int number = 2;
-                System.out.println(nameList.get(i) + ": " + cardBox.get(model.randomCard(number));
+                System.out.println(nameList.get(i) + ": " + cardBox.get(model.randomCard(number))
             } else {
                 System.out.println(nameList.get(i) + ": " + result);
             }
