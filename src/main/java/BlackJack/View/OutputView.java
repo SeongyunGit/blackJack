@@ -38,15 +38,16 @@ public class OutputView {
 
 
         System.out.println("딜러와 " + sb +"에게 2장을 나누었습니다." );
-        IntStream.range(0, nameList.size()).forEach(i-> {
+        int bound = nameList.size();
+        for (int i = 0; i < bound; i++) {
             String result = cardBox.get(i);
-            if (i==0) {
+            if (i == 0) {
                 int number = 2;
-                System.out.println(nameList.get(i) + ": " + cardBox.get(i).model.randomCard(number);
+                System.out.println(nameList.get(i) + ": " + cardBox.get(model.randomCard(number));
             } else {
                 System.out.println(nameList.get(i) + ": " + result);
             }
-        });
+        }
     }
 
     public static void calculateTempoaryScore(List<String> nameList, CardBox cardBox) {

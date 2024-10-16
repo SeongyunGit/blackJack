@@ -34,7 +34,8 @@ public class Model {
     }
 
 
-    public void randomCard(int number) {
-
+    public int randomCard(int number) {
+        number = random.nextInt(number);
+        return number;
     }
 }
