@@ -1,5 +1,6 @@
 package BlackJack.Controller;
 
+import BlackJack.Information.CardBox;
 import BlackJack.Model.Model;
 import BlackJack.View.InputView;
 import BlackJack.View.OutputView;
@@ -11,7 +12,7 @@ import java.util.List;
 public class Controller {
     private static List<String> nameList;
     private static List<Integer> moneyList = new ArrayList<>();
-    private static ArrayList<ArrayList<String>> cardBox = new ArrayList<>();
+    private static CardBox cardBox;
     private static ArrayList<Integer> result = new ArrayList<>();
 
     private final Model model;
@@ -27,7 +28,7 @@ public class Controller {
     public void gameStart() {
         nameList = input.gameNameInput();
         moneyList = input.bettingMoneyInput(nameList);
-        cardBox = model.randomPick(nameList,cardBox);
+        cardBox = model.randomPick(nameList);
         output.showCardFirst(nameList,cardBox);
         System.out.println(cardBox);
 

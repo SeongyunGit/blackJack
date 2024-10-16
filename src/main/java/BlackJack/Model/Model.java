@@ -1,5 +1,7 @@
 package BlackJack.Model;
 
+import BlackJack.Information.CardBox;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,13 +14,16 @@ public class Model {
     private static final Random random = new Random();
 
 
-    public static ArrayList<ArrayList<String>> randomPick(List<String> nameList,ArrayList<ArrayList<String>> cardBox) {
-        nameList.forEach(name-> cardBox.add(new ArrayList<>()));
+    public static CardBox randomPick(List<String> nameList) {
+        CardBox cardBox = new CardBox();
+        cardBox.getList(nameList.size());
+
+
         IntStream.range(0,2).forEach(i->
                 IntStream.range(0, nameList.size()).forEach(j-> {
                     String name = cardName[random.nextInt(4)];
                     String num = number[random.nextInt(12)];
-                    cardBox.get(j).add(num+name);
+                    cardBox.getRandomNumber(j,num+name);
                 })
         );
         return cardBox;

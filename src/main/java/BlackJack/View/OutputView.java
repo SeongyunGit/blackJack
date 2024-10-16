@@ -1,5 +1,6 @@
 package BlackJack.View;
 
+import BlackJack.Information.CardBox;
 import BlackJack.Model.Model;
 
 import java.util.*;
@@ -13,6 +14,9 @@ import static BlackJack.View.InputView.chooseGettingCardInput;
 
 public class OutputView {
 
+    private static final String DEALERGETONE = "딜러는 16이하라 한장의 카드를 더 받았습니다.";
+    private static final String FINALRESULT = "## 최종 수익";
+
     private static final Random random = new Random();
     private static StringBuilder sb =new StringBuilder();
     private static Model model;
@@ -21,7 +25,8 @@ public class OutputView {
         this.model = model;
     }
 
-    public void showCardFirst(List<String> nameList, ArrayList<ArrayList<String>> cardBox) {
+
+    public void showCardFirst(List<String> nameList, CardBox cardBox) {
         System.out.println(cardBox);
         IntStream.range(1,nameList.size())
                 .forEach(i-> {
@@ -34,8 +39,7 @@ public class OutputView {
 
         System.out.println("딜러와 " + sb +"에게 2장을 나누었습니다." );
         IntStream.range(0, nameList.size()).forEach(i-> {
-            String result = cardBox.get(i).stream()
-                    .collect(Collectors.joining(", "));
+            String result = cardBox.get(i);
             if (i==0) {
                 System.out.println(nameList.get(i) + ": " + cardBox.get(i).get(random.nextInt(2)));
             } else {
@@ -44,7 +48,7 @@ public class OutputView {
         });
     }
 
-    public static void calculateTempoaryScore(List<String> nameList,ArrayList<ArrayList<String>> cardBox) {
+    public static void calculateTempoaryScore(List<String> nameList, CardBox cardBox) {
         while (true) {
             AtomicInteger noCount = new AtomicInteger(0);
             AtomicBoolean is_true = new AtomicBoolean(true);
@@ -65,7 +69,7 @@ public class OutputView {
                 }
 
                 if (i == 0 && count < 16) {
-                    System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
+                    System.out.println(DEALERGETONE);
                     model.dealerPickCard(i, cardBox);
                 }
                 if (i != 0 && count < 21) {
@@ -79,7 +83,7 @@ public class OutputView {
             }
         }
     }
-    public static void resultOutput(List<String> nameList,ArrayList<ArrayList<String>> cardBox,ArrayList<Integer> result) {
+    public static void resultOutput(List<String> nameList, CardBox cardBox, ArrayList<Integer> result) {
         System.out.println(cardBox);
         List<Integer> scores = IntStream.range(0,nameList.size())
                 .map(i-> cardBox.get(i).stream()
@@ -103,7 +107,7 @@ public class OutputView {
         });
     }
     public static void lastBenefit(ArrayList<Integer> result,List<Integer> moneyList,List<String> nameList) {
-        System.out.println("## 최종 수익");
+        System.out.println(FINALRESULT);
         int [] ranking = new int[result.size()];
 
         IntStream.range(0,result.size()).forEach(i-> {
