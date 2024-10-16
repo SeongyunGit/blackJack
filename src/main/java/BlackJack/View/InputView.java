@@ -1,5 +1,6 @@
 package BlackJack.View;
 
+import BlackJack.Information.CardBox;
 import BlackJack.Information.MoneyList;
 import BlackJack.Information.NameManager;
 
@@ -27,13 +28,13 @@ public class InputView {
         return nameManager.getNameList();
     }
 
-    public static int chooseGettingCardInput(int noCount, int j, List<String> nameList,ArrayList<ArrayList<String>> cardBox) {
+    public static int chooseGettingCardInput(int noCount, int j, List<String> nameList, CardBox cardBox) {
         System.out.println(nameList.get(j) + QUESTIONCARD);
         String answer = sc.next();
         if (answer.equals("y")) {
             String name = cardName[random.nextInt(4)];
             String num = number[random.nextInt(12)];
-            cardBox.get(j).add(num + name);
+            cardBox.getRandomNumber(num + name,j);
         } else {
             noCount+=1;
         }

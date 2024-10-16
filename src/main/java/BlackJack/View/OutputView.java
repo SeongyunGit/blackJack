@@ -41,7 +41,8 @@ public class OutputView {
         IntStream.range(0, nameList.size()).forEach(i-> {
             String result = cardBox.get(i);
             if (i==0) {
-                System.out.println(nameList.get(i) + ": " + cardBox.get(i).get(random.nextInt(2)));
+                int number = 2;
+                System.out.println(nameList.get(i) + ": " + cardBox.get(i).model.randomCard(number);
             } else {
                 System.out.println(nameList.get(i) + ": " + result);
             }
@@ -54,14 +55,8 @@ public class OutputView {
             AtomicBoolean is_true = new AtomicBoolean(true);
 
             IntStream.range(0,nameList.size()).forEach(i-> {
-                int count = cardBox.get(i).stream()
-                        .mapToInt(card -> {
-                            char firstChar = card.charAt(0);
-                            if (firstChar == 'A') return 11;
-                            else if (firstChar == 'K' || firstChar == 'Q' || firstChar == 'J') return 10;
-                            else return firstChar - '0';
-                        })
-                        .sum();
+                int count = cardBox.calculateNumber();
+
                 if (count >= 21) {
                     is_true.set(false);
                     System.out.println(count);
@@ -73,7 +68,7 @@ public class OutputView {
                     model.dealerPickCard(i, cardBox);
                 }
                 if (i != 0 && count < 21) {
-                    noCount.set(chooseGettingCardInput(noCount.get(), i, nameList, cardBox));
+                    noCount.set(chooseGettingCardInput(noCount.get(), i, nameList,cardBox));
                 }
 
             });
@@ -86,23 +81,15 @@ public class OutputView {
     public static void resultOutput(List<String> nameList, CardBox cardBox, ArrayList<Integer> result) {
         System.out.println(cardBox);
         List<Integer> scores = IntStream.range(0,nameList.size())
-                .map(i-> cardBox.get(i).stream()
-                        .mapToInt(card -> {
-                            char firstChar =card.charAt(0);
-                            if (firstChar=='A') return 11;
-                            else if (firstChar=='K' || firstChar=='Q' || firstChar=='J') return 10;
-                            else return firstChar-'0';
-                        })
-                        .sum())
+                .map(cardBox::calculatePlayerScore)
                 .boxed()
                 .collect(Collectors.toList());
-        result.addAll(scores);
+
 
         System.out.println(result);
 
         IntStream.range(0,nameList.size()).forEach(i-> {
-            String resultCard = cardBox.get(i).stream()
-                    .collect(Collectors.joining(", "));
+            String resultCard = cardBox.get(i);
             System.out.println(nameList.get(i) + ": " + resultCard + " - 결과: " + result.get(i));
         });
     }

@@ -2,7 +2,6 @@ package BlackJack.Model;
 
 import BlackJack.Information.CardBox;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -23,14 +22,19 @@ public class Model {
                 IntStream.range(0, nameList.size()).forEach(j-> {
                     String name = cardName[random.nextInt(4)];
                     String num = number[random.nextInt(12)];
-                    cardBox.getRandomNumber(j,num+name);
+                    cardBox.getRandomNumber(num+name,j);
                 })
         );
         return cardBox;
     }
-    public static void dealerPickCard(int j, ArrayList<ArrayList<String>> cardBox) {
+    public static void dealerPickCard(int j, CardBox cardBox) {
         String name = cardName[random.nextInt(4)];
         String num = number[random.nextInt(12)];
-        cardBox.get(j).add(num + name);
+        cardBox.getRandomNumber(num+name,j);
+    }
+
+
+    public void randomCard(int number) {
+
     }
 }
