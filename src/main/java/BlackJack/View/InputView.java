@@ -34,7 +34,7 @@ public class InputView {
         if (answer.equals("y")) {
             String name = cardName[random.nextInt(4)];
             String num = number[random.nextInt(12)];
-            cardBox.getRandomNumber(num + name,j);
+            cardmaking.getRandomNumber(cardBox,num + name,j);
         } else {
             noCount+=1;
         }

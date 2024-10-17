@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static BlackJack.Model.Model.cardBox;
 import static BlackJack.View.InputView.chooseGettingCardInput;
 
 
@@ -26,7 +27,7 @@ public class OutputView {
     }
 
 
-    public void showCardFirst(List<String> nameList, CardBox cardBox) {
+    public void showCardFirst(List<String> nameList) {
         System.out.println(cardBox);
         IntStream.range(1,nameList.size())
                 .forEach(i-> {
@@ -39,7 +40,7 @@ public class OutputView {
         System.out.println("딜러와 " + sb +"에게 2장을 나누었습니다." );
         int bound = nameList.size();
         for (int i = 0; i < bound; i++) {
-            String result = cardBox.get(i);
+            List<String> result = cardBox.get(i);
             if (i == 0) {
                 System.out.println(nameList.get(i) + ": " + cardBox.get(model.randomCard(2)));
             } else {
@@ -64,7 +65,7 @@ public class OutputView {
 
                 if (i == 0 && count < 16) {
                     System.out.println(DEALERGETONE);
-                    model.dealerPickCard(i, cardBox);
+                    model.dealerPickCard(cardBox);
                 }
                 if (i != 0 && count < 21) {
                     noCount.set(chooseGettingCardInput(noCount.get(), i, nameList,cardBox));
@@ -88,7 +89,7 @@ public class OutputView {
         System.out.println(result);
 
         IntStream.range(0,nameList.size()).forEach(i-> {
-            String resultCard = cardBox.get(i);
+            List<String> resultCard = cardBox.get(i);
             System.out.println(nameList.get(i) + ": " + resultCard + " - 결과: " + result.get(i));
         });
     }
@@ -103,9 +104,11 @@ public class OutputView {
             ranking[i]=rank;
         });
 
+
         IntStream.range(0,result.size())
                 .filter(i->result.get(i) > 21)
                 .forEach(i->ranking[i]=2);
+
 
         System.out.println(Arrays.toString(ranking));
         int[] realResult = new int[result.size()];

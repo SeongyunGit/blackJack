@@ -6,35 +6,26 @@ import java.util.stream.Collectors;
 
 
 public class CardBox {
-    private ArrayList<ArrayList<String>> cardBox;
     private ArrayList<String> list;
     private List<Card> cards;
 
     public CardBox() {
-        this.cardBox = new ArrayList<>();
         this.list = new ArrayList<>();
-
     }
 
 
-    public void getList(int size) {
+    public void getList(ArrayList<ArrayList<String>> cardBox,int size) {
         for (int i = 0; i < size; i++) {
             cardBox.add(list);
         }
     }
 
-    public void getRandomNumber(String card,int j) {
-        if (j >= 0 && j < cardBox.size()) {
-            cardBox.get(j).add(card);
-        }
+    public void getRandomNumber(ArrayList<ArrayList<String>> cardBox,String card,int k) {
+            cardBox.get(k).add(card);
     }
 
-    public String get(int i) {
-        if (i >= 0 && i < cardBox.size()) {
-            return cardBox.get(i).stream().collect(Collectors.joining(","));
-        } else {
-            throw new IndexOutOfBoundsException("Invalid i index");
-        }
+    public void get(int i,String card) {
+        cardBox.get(i).add(card);
     }
 
     public int calculateNumber() {

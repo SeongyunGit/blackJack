@@ -12,7 +12,7 @@ import java.util.List;
 public class Controller {
     private static List<String> nameList;
     private static List<Integer> moneyList = new ArrayList<>();
-    private static CardBox cardBox;
+    private static ArrayList<ArrayList<String>> cardBox;
     private static ArrayList<Integer> result = new ArrayList<>();
 
     private final Model model;
@@ -29,7 +29,7 @@ public class Controller {
         nameList = input.gameNameInput();
         moneyList = input.bettingMoneyInput(nameList);
         cardBox = model.randomPick(nameList);
-        output.showCardFirst(nameList,cardBox);
+        output.showCardFirst(nameList);
         System.out.println(cardBox);
 
         output.calculateTempoaryScore(nameList,cardBox);
