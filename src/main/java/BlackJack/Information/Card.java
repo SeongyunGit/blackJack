@@ -8,9 +8,6 @@ public class Card {
     }
 
 
-
-
-
     public int getValue() {
         char firstChar = card.charAt(0);
         if (firstChar == 'A') return 11;

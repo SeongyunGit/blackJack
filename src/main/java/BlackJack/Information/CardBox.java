@@ -6,15 +6,15 @@ import java.util.stream.Collectors;
 
 
 public class CardBox {
-    private ArrayList<String> list;
+    public static ArrayList<String> list=new ArrayList<>();
     private List<Card> cards;
 
-    public CardBox() {
-        this.list = new ArrayList<>();
-    }
+//    public CardBox() {
+//        this.list = new ArrayList<>();
+//    }
 
 
-    public void getList(ArrayList<ArrayList<String>> cardBox,int size) {
+    public static void getList(ArrayList<ArrayList<String>> cardBox,int size) {
         for (int i = 0; i < size; i++) {
             cardBox.add(list);
         }

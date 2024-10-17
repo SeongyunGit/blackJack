@@ -15,23 +15,18 @@ public class Model {
     public static ArrayList<ArrayList<String>> cardBox;
 
     public static ArrayList<ArrayList<String>> randomPick(List<String> nameList) {
-        CardBox cardmaking = new CardBox();
+
         cardBox = new ArrayList<>();
 
-        cardmaking.getList(cardBox,nameList.size());
-
-
-        cardmaking.getList(cardBox,nameList.size());
-
-
-
-        IntStream.range(0,2).forEach(i->
-                IntStream.range(0, nameList.size()).forEach(j-> {
-                    String name = cardName[random.nextInt(4)];
-                    String num = number[random.nextInt(12)];
-                    randomCardPick(cardBox,num + name, j);
-                }));
-        return cardBox;
+        CardBox.getList(cardBox,nameList.size());
+        System.out.println("real"+cardBox);
+        for(int i=0;i<2;i++) {
+            for (int j=0;j<nameList.size();j++) {
+                String name = cardName[random.nextInt(4)];
+                String num = number[random.nextInt(12)];
+                randomCardPick(cardBox,num + name, j);
+            }
+        } return cardBox;
     }
 
     public static void dealerPickCard(int i,ArrayList<ArrayList<String>> cardBox) {
@@ -41,6 +36,7 @@ public class Model {
     }
 
     public static void randomCardPick(ArrayList<ArrayList<String>> cardBox, String card, int j ) {
+        System.out.println(cardBox.get(j));
         cardBox.get(j).add(card);
     }
 
