@@ -29,15 +29,19 @@ public class Model {
                 IntStream.range(0, nameList.size()).forEach(j-> {
                     String name = cardName[random.nextInt(4)];
                     String num = number[random.nextInt(12)];
-                    cardmaking.getRandomNumber(cardBox,num + name, j);
+                    randomCardPick(cardBox,num + name, j);
                 }));
         return cardBox;
     }
 
-    public static void dealerPickCard(CardBox cardBox) {
+    public static void dealerPickCard(int i,ArrayList<ArrayList<String>> cardBox) {
         String name = cardName[random.nextInt(4)];
         String num = number[random.nextInt(12)];
-        cardBox.get(0,num+name);
+        cardBox.get(i).add(0,num+name);
+    }
+
+    public static void randomCardPick(ArrayList<ArrayList<String>> cardBox, String card, int j ) {
+        cardBox.get(j).add(card);
     }
 
 

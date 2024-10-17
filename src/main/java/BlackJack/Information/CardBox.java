@@ -20,33 +20,14 @@ public class CardBox {
         }
     }
 
-    public void getRandomNumber(ArrayList<ArrayList<String>> cardBox,String card,int k) {
-            cardBox.get(k).add(card);
-    }
 
-    public void get(int i,String card) {
-        cardBox.get(i).add(card);
-    }
+    public int calculateNumber(int i,ArrayList<ArrayList<String>> cardBox) {
+        int total=0;
+        for (String j : cardBox.get(i)) {
+            total += j.indexOf(0);
+        }
+        return total;
 
-    public int calculateNumber() {
-        return cards.stream()
-                .mapToInt(Card::getValue)
-                .sum();
     }
-    public ArrayList<String> getPlayerCards(int playerIndex) {
-        return cardBox.get(playerIndex);
-    }
-
-    public int calculatePlayerScore(int playerIndex) {
-        return getPlayerCards(playerIndex).stream()
-                .mapToInt(Card::getValue)
-                .sum();
-    }
-
-
-    public ArrayList<ArrayList<String>> getAllPlayerCards() {
-        return cardBox;
-    }
-
 }
 

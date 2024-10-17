@@ -42,20 +42,21 @@ public class OutputView {
         for (int i = 0; i < bound; i++) {
             List<String> result = cardBox.get(i);
             if (i == 0) {
-                System.out.println(nameList.get(i) + ": " + cardBox.get(model.randomCard(2)));
+                System.out.println(nameList.get(i) + ": " + cardBox.get(i).get(model.randomCard(2)));
             } else {
                 System.out.println(nameList.get(i) + ": " + result);
             }
         }
     }
 
-    public static void calculateTempoaryScore(List<String> nameList, CardBox cardBox) {
+    public static void calculateTempoaryScore(List<String> nameList, ArrayList<ArrayList<String>> cardBox) {
         while (true) {
             AtomicInteger noCount = new AtomicInteger(0);
             AtomicBoolean is_true = new AtomicBoolean(true);
+            CardBox cardBox1 = new CardBox();
 
             IntStream.range(0,nameList.size()).forEach(i-> {
-                int count = cardBox.calculateNumber();
+                int count = cardBox1.calculateNumber(i,cardBox);
 
                 if (count >= 21) {
                     is_true.set(false);
@@ -65,7 +66,7 @@ public class OutputView {
 
                 if (i == 0 && count < 16) {
                     System.out.println(DEALERGETONE);
-                    model.dealerPickCard(cardBox);
+                    model.dealerPickCard(0,cardBox);
                 }
                 if (i != 0 && count < 21) {
                     noCount.set(chooseGettingCardInput(noCount.get(), i, nameList,cardBox));
@@ -78,13 +79,8 @@ public class OutputView {
             }
         }
     }
-    public static void resultOutput(List<String> nameList, CardBox cardBox, ArrayList<Integer> result) {
+    public static void resultOutput(List<String> nameList, ArrayList<ArrayList<String>> cardBox, ArrayList<Integer> result) {
         System.out.println(cardBox);
-        List<Integer> scores = IntStream.range(0,nameList.size())
-                .map(cardBox::calculatePlayerScore)
-                .boxed()
-                .collect(Collectors.toList());
-
 
         System.out.println(result);
 

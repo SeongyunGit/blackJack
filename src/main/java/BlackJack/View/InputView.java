@@ -1,11 +1,15 @@
 package BlackJack.View;
 
-import BlackJack.Information.CardBox;
+
 import BlackJack.Information.MoneyList;
 import BlackJack.Information.NameManager;
 
+
 import java.util.*;
 import java.util.stream.IntStream;
+
+import static BlackJack.Model.Model.randomCardPick;
+
 
 public class InputView {
 
@@ -28,13 +32,13 @@ public class InputView {
         return nameManager.getNameList();
     }
 
-    public static int chooseGettingCardInput(int noCount, int j, List<String> nameList, CardBox cardBox) {
+    public static int chooseGettingCardInput(int noCount, int j, List<String> nameList, ArrayList<ArrayList<String>> cardBox) {
         System.out.println(nameList.get(j) + QUESTIONCARD);
         String answer = sc.next();
         if (answer.equals("y")) {
             String name = cardName[random.nextInt(4)];
             String num = number[random.nextInt(12)];
-            cardmaking.getRandomNumber(cardBox,num + name,j);
+            randomCardPick(cardBox,num + name,j);
         } else {
             noCount+=1;
         }
