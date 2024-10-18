@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
+
 import static BlackJack.View.InputView.chooseGettingCardInput;
 
 
@@ -27,7 +28,7 @@ public class OutputView {
     }
 
 
-    public void showCardFirst(List<String> nameList) {
+    public void showCardFirst(ArrayList<ArrayList<String>> cardBox,List<String> nameList) {
         System.out.println(cardBox);
         IntStream.range(1,nameList.size())
                 .forEach(i-> {

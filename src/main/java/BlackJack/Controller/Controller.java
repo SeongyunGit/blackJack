@@ -31,7 +31,7 @@ public class Controller {
         System.out.println("nameList" + nameList);
         cardBox = model.randomPick(nameList);
 
-        output.showCardFirst(nameList);
+        output.showCardFirst(cardBox,nameList);
         System.out.println(cardBox);
 
         output.calculateTempoaryScore(nameList,cardBox);

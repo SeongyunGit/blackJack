@@ -15,13 +15,15 @@ public class Model {
     private static final String[] cardName = {"클로버","스페이드","하트","다이아몬드"};
     private static final String[] number = {"A","2","3","4","5","6","7","8","9","J","Q","K"};
     private static final Random random = new Random();
-    public ArrayList<ArrayList<String>> cardBox;
+    public ArrayList<ArrayList<String>> cardBox = new ArrayList<>();
+    public ArrayList<String> list = new ArrayList<>();
 
 
     public ArrayList<ArrayList<String>> randomPick(List<String> nameList) {
 
-        CardBox.getList(cardBox,nameList.size());
 
+        getList(cardBox,nameList.size());
+        System.out.println(cardBox);
         for (int j=0;j<nameList.size();j++) {
             String name = cardName[random.nextInt(4)];
             String num = number[random.nextInt(12)];
@@ -46,5 +48,11 @@ public class Model {
     public int randomCard(int number) {
         number = random.nextInt(number);
         return number;
+    }
+
+    private void getList(ArrayList<ArrayList<String>> cardBox,int size) {
+        for (int i = 0; i < size; i++)
+        {cardBox.add(list);
+        }
     }
 }

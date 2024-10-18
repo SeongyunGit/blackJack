@@ -7,10 +7,14 @@ public class CardBox {
     private List<Card> cards;
     public ArrayList<String> list = new ArrayList<>();
 
+    public CardBox(ArrayList<String> list) {
+        this.list = list;
+    }
 
-    public static void getList(ArrayList<ArrayList<String>> cardBox, int size) {
+
+    public void getList(ArrayList<ArrayList<String>> cardBox, int size) {
         for (int i = 0; i < size; i++) {
-            cardBox.add(new ArrayList<>());
+            cardBox.add(list);
         }
     }
 
