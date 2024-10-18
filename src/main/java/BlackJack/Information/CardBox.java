@@ -2,21 +2,15 @@ package BlackJack.Information;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 public class CardBox {
-    public static ArrayList<String> list=new ArrayList<>();
     private List<Card> cards;
-
-//    public CardBox() {
-//        this.list = new ArrayList<>();
-//    }
+    public ArrayList<String> list = new ArrayList<>();
 
 
-    public static void getList(ArrayList<ArrayList<String>> cardBox,int size) {
+    public static void getList(ArrayList<ArrayList<String>> cardBox, int size) {
         for (int i = 0; i < size; i++) {
-            cardBox.add(list);
+            cardBox.add(new ArrayList<>());
         }
     }
 

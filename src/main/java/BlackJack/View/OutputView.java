@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static BlackJack.Model.Model.cardBox;
+
 import static BlackJack.View.InputView.chooseGettingCardInput;
 
 

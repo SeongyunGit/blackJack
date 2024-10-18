@@ -28,7 +28,9 @@ public class Controller {
     public void gameStart() {
         nameList = input.gameNameInput();
         moneyList = input.bettingMoneyInput(nameList);
+        System.out.println("nameList" + nameList);
         cardBox = model.randomPick(nameList);
+
         output.showCardFirst(nameList);
         System.out.println(cardBox);
 

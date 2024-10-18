@@ -8,7 +8,7 @@ import BlackJack.Information.NameManager;
 import java.util.*;
 import java.util.stream.IntStream;
 
-import static BlackJack.Model.Model.randomCardPick;
+//import static BlackJack.Model.Model.randomCardPick;
 
 
 public class InputView {
@@ -38,7 +38,7 @@ public class InputView {
         if (answer.equals("y")) {
             String name = cardName[random.nextInt(4)];
             String num = number[random.nextInt(12)];
-            randomCardPick(cardBox,num + name,j);
+//            randomCardPick(cardBox,num + name,j);
         } else {
             noCount+=1;
         }
