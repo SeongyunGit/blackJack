@@ -1,7 +1,7 @@
 package BlackJack.Information;
 
 public class Card {
-    private final String card;
+    private String card;
 
     public Card(String card) {
         this.card = card;

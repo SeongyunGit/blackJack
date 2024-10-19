@@ -32,17 +32,21 @@ public class InputView {
         return nameManager.getNameList();
     }
 
-    public static int chooseGettingCardInput(int noCount, int j, List<String> nameList, ArrayList<ArrayList<String>> cardBox) {
+    public static int chooseGettingCardInput(int noCount, int j, List<String> nameList, String[][] cardBox) {
         System.out.println(nameList.get(j) + QUESTIONCARD);
         String answer = sc.next();
         if (answer.equals("y")) {
             String name = cardName[random.nextInt(4)];
             String num = number[random.nextInt(12)];
-//            randomCardPick(cardBox,num + name,j);
+            randomCardPick(cardBox,num + name,j);
         } else {
             noCount+=1;
         }
         return noCount;
+    }
+
+    private static void randomCardPick(String[][] cardBox, String s, int j) {
+        cardBox[j][2]=s;
     }
 
     public static List<Integer> bettingMoneyInput(List<String> nameList) {

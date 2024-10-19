@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
-
+import static BlackJack.Information.Result.resultCalculate;
 import static BlackJack.View.InputView.chooseGettingCardInput;
 
 
@@ -22,13 +22,14 @@ public class OutputView {
     private static final Random random = new Random();
     private static StringBuilder sb =new StringBuilder();
     private static Model model;
+    private static int dealerPoint = 2;
 
     public OutputView(Model model) {
         this.model = model;
     }
 
 
-    public void showCardFirst(ArrayList<ArrayList<String>> cardBox,List<String> nameList) {
+    public void showCardFirst(String[][] cardBox,List<String> nameList) {
         System.out.println(cardBox);
         IntStream.range(1,nameList.size())
                 .forEach(i-> {
@@ -41,16 +42,17 @@ public class OutputView {
         System.out.println("딜러와 " + sb +"에게 2장을 나누었습니다." );
         int bound = nameList.size();
         for (int i = 0; i < bound; i++) {
-            List<String> result = cardBox.get(i);
+            String[] result = cardBox[i];
             if (i == 0) {
-                System.out.println(nameList.get(i) + ": " + cardBox.get(i).get(model.randomCard(2)));
+                System.out.println(nameList.get(i) + ": " + cardBox[i][1]);
             } else {
-                System.out.println(nameList.get(i) + ": " + result);
+                System.out.println(nameList.get(i) + ": " + Arrays.toString(result));
             }
         }
     }
 
-    public static void calculateTempoaryScore(List<String> nameList, ArrayList<ArrayList<String>> cardBox) {
+    public static void calculateTempoaryScore(List<String> nameList, String[][] cardBox) {
+
         while (true) {
             AtomicInteger noCount = new AtomicInteger(0);
             AtomicBoolean is_true = new AtomicBoolean(true);
@@ -67,7 +69,8 @@ public class OutputView {
 
                 if (i == 0 && count < 16) {
                     System.out.println(DEALERGETONE);
-                    model.dealerPickCard(0,cardBox);
+                    model.dealerPickCard(0,cardBox, dealerPoint);
+                    dealerPoint++;
                 }
                 if (i != 0 && count < 21) {
                     noCount.set(chooseGettingCardInput(noCount.get(), i, nameList,cardBox));
@@ -80,16 +83,17 @@ public class OutputView {
             }
         }
     }
-    public static void resultOutput(List<String> nameList, ArrayList<ArrayList<String>> cardBox, ArrayList<Integer> result) {
-        System.out.println(cardBox);
+    public static void resultOutput(List<String> nameList, String[][] cardBox, ArrayList<Integer> result) {
 
-        System.out.println(result);
+        resultCalculate(result,cardBox,nameList);
+
 
         IntStream.range(0,nameList.size()).forEach(i-> {
-            List<String> resultCard = cardBox.get(i);
-            System.out.println(nameList.get(i) + ": " + resultCard + " - 결과: " + result.get(i));
+            String[] resultCard = cardBox[i];
+            System.out.println(nameList.get(i) + ": " + Arrays.toString(resultCard) + " - 결과: " + result.get(i));
         });
     }
+
     public static void lastBenefit(ArrayList<Integer> result,List<Integer> moneyList,List<String> nameList) {
         System.out.println(FINALRESULT);
         int [] ranking = new int[result.size()];

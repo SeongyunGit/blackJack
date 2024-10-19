@@ -7,22 +7,19 @@ public class CardBox {
     private List<Card> cards;
     public ArrayList<String> list = new ArrayList<>();
 
-    public CardBox(ArrayList<String> list) {
-        this.list = list;
+    public CardBox() {
+
     }
 
 
-    public void getList(ArrayList<ArrayList<String>> cardBox, int size) {
-        for (int i = 0; i < size; i++) {
-            cardBox.add(list);
-        }
-    }
-
-
-    public int calculateNumber(int i,ArrayList<ArrayList<String>> cardBox) {
+    public int calculateNumber(int i,String[][] cardBox) {
         int total=0;
-        for (String j : cardBox.get(i)) {
-            total += j.indexOf(0);
+        for (String j : cardBox[i]) {
+            if (j==null) {
+                break;
+            } else {
+                total += j.indexOf(0)-'0';
+            }
         }
         return total;
 
