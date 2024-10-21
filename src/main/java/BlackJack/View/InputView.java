@@ -1,15 +1,10 @@
 package BlackJack.View;
 
-
 import BlackJack.Information.MoneyList;
 import BlackJack.Information.NameManager;
 
-
 import java.util.*;
 import java.util.stream.IntStream;
-
-//import static BlackJack.Model.Model.randomCardPick;
-
 
 public class InputView {
 
